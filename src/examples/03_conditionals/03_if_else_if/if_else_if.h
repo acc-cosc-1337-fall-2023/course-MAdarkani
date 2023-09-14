@@ -1,8 +1,6 @@
-//write include statement
+//write function prototype for function named is_even that accepts an int 
+#include<string>
+//parameter and returns a bool type
 
-
-//write prototype for function named get_generation that accepts an int and
-//returns a string
-
-
+std::string get_generation(int year);
 
