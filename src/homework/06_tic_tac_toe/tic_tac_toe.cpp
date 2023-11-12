@@ -1,7 +1,8 @@
 //cpp
 #include "tic_tac_toe.h"
-
 using std::cout;
+
+TicTacToe::TicTacToe(int s) : pegs(s * s, " ") {}
 
 //Pulic Functions
 
@@ -37,14 +38,25 @@ void TicTacToe::mark_board(int position)
 
 void TicTacToe::display_board() const
 {
-    for(long unsigned int i=0; i < pegs.size(); i +=3)
+    int size = pegs.size();
+    if (size == 3*3)
     {
-        cout<<pegs[i]<<"|"<<pegs[i+1]<<"|"<<pegs[i+2]<<"\n";
+        for(long unsigned int i=0; i < pegs.size(); i +=3)
+        {
+            cout<<pegs[i]<<"|"<<pegs[i+1]<<"|"<<pegs[i+2]<<"\n";
+        }
+    }
+    else if (size == 4*4)
+    {
+        for(long unsigned int i=0; i < pegs.size(); i +=4)
+        {
+            cout<<pegs[i]<<"|"<<pegs[i+1]<<"|"<<pegs[i+2]<<"|"<<pegs[i+3]<<"\n";
+        }
     }
 }
 
 
-std::string TicTacToe::get_winner()
+std::string TicTacToe::get_winner() const
 {
     return winner;
 }
@@ -84,7 +96,7 @@ void TicTacToe::set_winner()
     }
 }
 
-bool TicTacToe::check_board_full()
+bool TicTacToe::check_board_full() const
 {
     for(long unsigned int i=0; i < pegs.size(); i++)
     {
@@ -98,20 +110,7 @@ bool TicTacToe::check_board_full()
 }
 
 
-
-bool TicTacToe::check_row_win()
-{
-    for(int i=0; i<9; i+=3)
-    {
-        if (pegs[i]==pegs[i+1] && pegs[i]==pegs[i+2] && pegs[i]!=" ")
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool TicTacToe::check_column_win()
+bool TicTacToe::check_column_win() const
 {
     for (int i=0; i<3; i++)
     {
@@ -123,7 +122,19 @@ bool TicTacToe::check_column_win()
     return false;
 }
 
-bool TicTacToe::check_diagonal_win()
+bool TicTacToe::check_row_win() const
+{
+    for(int i=0; i<9; i+=3)
+    {
+        if (pegs[i]==pegs[i+1] && pegs[i]==pegs[i+2] && pegs[i]!=" ")
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool TicTacToe::check_diagonal_win() const
 {
     if ((pegs[0]==pegs[4] && pegs[0]==pegs[8] && pegs[0]!=" ") || (pegs[2]==pegs[4] && pegs[2]==pegs[6] && pegs[2]!=" "))
     {
@@ -132,3 +143,20 @@ bool TicTacToe::check_diagonal_win()
     return false;
 }
 
+
+std::ostream& operator<<(std::ostream& out, const TicTacToe& game)
+{
+    for (size_t i = 0; i < game.pegs.size(); ++i)
+    {
+        out << game.pegs[i];
+        if ((i + 1) % 3 == 0 && i < game.pegs.size() - 1)
+        {
+            out << "\n";
+        }
+        else
+        {
+            out << "|";
+        }
+    }
+    return out;
+}
